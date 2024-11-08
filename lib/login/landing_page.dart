@@ -115,7 +115,7 @@ class _LandingPageState extends State<LandingPage> {
                     child: Text('Login',style: TextStyle(color: Colors.black),),
                     onPressed: () {
                   
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const AdminBottomNavigation() ) );
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const CheckStatusAccount() ) );
                   
                     },
                   ),

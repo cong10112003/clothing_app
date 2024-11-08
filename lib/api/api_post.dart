@@ -1,7 +1,7 @@
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-const String FOOD_ITEM = "http://192.168.1.9:3030/api/";
+const String FOOD_ITEM = "http://192.168.1.11:3030/api/";
 
 //Category
 Future<void> postCategory(Map<String, dynamic> category) async {
@@ -43,5 +43,33 @@ Future<void> postAccount(Map<String, dynamic> account) async {
     print('Product posted successfully');
   } else {
     throw Exception('Failed to post product');
+  }
+}
+//create Cart
+Future<void> postCart(Map<String, dynamic> cart) async {
+  final response = await http.post(
+    Uri.parse('$FOOD_ITEM/Carts/PostCart'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode(cart),
+  );
+
+  if (response.statusCode == 201 || response.statusCode == 200) {
+    print('Cart posted successfully');
+  } else {
+    throw Exception('Failed to post cart');
+  }
+}
+//Post item into cart
+Future<void> addToCart(Map<String, dynamic> itemToCart) async {
+  final response = await http.post(
+    Uri.parse('$FOOD_ITEM/CartProducts/PostCartProduct'),
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode(itemToCart),
+  );
+
+  if (response.statusCode == 201) {
+    print('Added to cart successfully');
+  } else {
+    throw Exception('Failed to Add to cart ');
   }
 }

@@ -26,13 +26,13 @@ class _CheckStatusAccountState extends State<CheckStatusAccount> {
     int AccountID = prefs.getInt('AccountID') ?? -1;
 
     if (isLoggedIn) {
-      if (AccountID >= 1) {
+      if (AccountID != 6) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => bottom_navigation_controller()),
         );
-      } else if (AccountID == 0) {
+      } else if (AccountID == 6) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => AdminBottomNavigation()),

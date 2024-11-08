@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/Category/category_cell.dart';
 import 'package:food_app/Category/category_detail_view.dart';
+import 'package:food_app/admin_manager/Category%20Control/add_category.dart';
 import 'package:food_app/api/api_get.dart';
 import 'package:food_app/common/color_extension.dart';
-
 
 class CategoryControll extends StatefulWidget {
   const CategoryControll({super.key});
@@ -26,6 +26,7 @@ class _CategoryControllState extends State<CategoryControll> {
       _categoryFuture = getCategories();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +43,7 @@ class _CategoryControllState extends State<CategoryControll> {
                 centerTitle: false,
                 leadingWidth: 0,
                 title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Product Controll",
@@ -50,6 +52,21 @@ class _CategoryControllState extends State<CategoryControll> {
                           color: TColor.text,
                           fontSize: 32,
                           fontWeight: FontWeight.w700),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddCategory()));
+                      },
+                      child: Text(
+                        "Add",
+                        style: TextStyle(
+                            color: TColor.primary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ],
                 ),
@@ -67,8 +84,17 @@ class _CategoryControllState extends State<CategoryControll> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Lỗi: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text("Don't have any category yet"));
-                  } else {
+          return ListView( // Bọc ListView để có thể refresh khi danh sách trống
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Center(
+                  child: Text("Don't have any category yet"),
+                ),
+              ),
+            ],
+          );
+        } else {
                     final items = snapshot.data!;
                     return GridView.builder(
                         padding: const EdgeInsets.symmetric(
@@ -85,12 +111,12 @@ class _CategoryControllState extends State<CategoryControll> {
                           return GestureDetector(
                               onTap: () {
                                 Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      CategoryDetailView(item: item),
-                                ),
-                              );
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        CategoryDetailView(item: item),
+                                  ),
+                                );
                               },
                               child: CategoryCell(
                                 item: item,

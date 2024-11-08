@@ -4,6 +4,7 @@ import 'package:food_app/api/api_post.dart';
 import 'package:food_app/common/color_extension.dart';
 import 'package:food_app/common/toast.dart';
 import 'package:food_app/login/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common_widget/line_textfield.dart';
 import '../../common_widget/round_button.dart';
@@ -23,14 +24,12 @@ class _SignUpViewState extends State<SignUpView> {
   TextEditingController txtPhone = TextEditingController();
   TextEditingController txtFullname = TextEditingController();
   void _submitForm() async {
-    int maxAccountID = await fetchMaxAccountID();
-    int maxCustomerID = await fetchMaxCustomerID();
     if (_formKey.currentState!.validate()) {
       final account = {
-        'AccountID': maxAccountID + 1,
+        'AccountID': 1,
         'Username': txtEmail.text,
         'Password': txtPassword.text,
-        'CustomerID': maxCustomerID + 1,
+        'CustomerID': 1,
         "Customer": {
           "CustomerName": "",
           "Address": "",
@@ -44,6 +43,27 @@ class _SignUpViewState extends State<SignUpView> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Create sucessfully'),
         ));
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Create failed'),
+        ));
+      }
+    }
+  }
+
+  void creatCart() async {
+    int maxCustomerID = await fetchMaxCustomerID();
+    if (_formKey.currentState!.validate()) {
+      final cart = {
+        'CartID': maxCustomerID,
+        'CustomerID': maxCustomerID,
+        'CreatedDate': ""
+      };
+      try {
+        await postCart(cart);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Create sucessfully'),
+        ));
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       } catch (e) {
@@ -52,7 +72,7 @@ class _SignUpViewState extends State<SignUpView> {
         ));
       }
     }
-  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +167,7 @@ class _SignUpViewState extends State<SignUpView> {
                       return;
                     } else {
                       _submitForm();
+                      creatCart();
                     }
                   },
                   type: RoundButtonType.primary,

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-const String FOOD_ITEM = "http://192.168.1.9:3030/api/";
+const String FOOD_ITEM = "http://192.168.1.11:3030/api/";
 // Product
 Future<void> updateProduct(String productId, Map<String, dynamic> updatedProduct) async {
   final url = Uri.parse('$FOOD_ITEM/Products/PutProduct/$productId');
@@ -23,9 +23,8 @@ Future<void> updateProduct(String productId, Map<String, dynamic> updatedProduct
 }
 
 // Category
-Future<void> updateCategory(
-    String CategoryId, Map<String, dynamic> updatedCategory) async {
-  final url = Uri.parse('$FOOD_ITEM/Categories/Put/$CategoryId');
+Future<void> updateCategory(String CategoryId, Map<String, dynamic> updatedCategory) async {
+  final url = Uri.parse('$FOOD_ITEM/Categories/PutCategory/$CategoryId');
 
   final response = await http.put(
     url,

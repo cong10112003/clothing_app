@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-const String FOOD_ITEM = "http://192.168.1.9:3030/api/";
+const String FOOD_ITEM = "http://192.168.1.11:3030/api/";
 Future<List<dynamic>> fetchData(String endpoint) async {
   final response = await http.get(Uri.parse('$FOOD_ITEM/$endpoint'));
 
@@ -126,4 +126,14 @@ Future<int> fetchMaxProductID() async {
   }
 }
 
+//get cart by id
+Future<Map<String, dynamic>?> getCartByID(int cartID) async {
+  final url = Uri.parse('$FOOD_ITEM/Carts/GetCart/$cartID');
+  final response = await http.get(url);
+  if (response.statusCode == 200) {
+    return json.decode(response.body);
+  } else {
+    throw Exception('Failed to load cart');
+  }
+}
 

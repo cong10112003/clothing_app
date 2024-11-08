@@ -53,18 +53,20 @@ class _LoginPageState extends State<LoginPage> {
       prefs.setBool('isLoggedIn', true);
       prefs.setInt('AccountID', account['AccountID']); //Lưu id
       prefs.setInt('CustomerID', account['CustomerID']); //CustomerID
+      prefs.setInt('cartID', account['Customer']['Carts'][0]['CartID']); //Lưu cartID
+      print(prefs.getInt('cartID'));
       await prefs.setString(
           'CustomerName', account['Customer']['CustomerName']); //Lưu id
       await prefs.setString(
           'CustomerEmail', account['Customer']['Email']); //Lưu id
-      if (account['AccountID'] != 0) {
+      if (account['AccountID'] != 6) {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
               builder: (context) => bottom_navigation_controller()),
           (Route<dynamic> route) => false,
         );
-      } else if (account['AccountID'] == 0) {
+      } else if (account['AccountID'] == 6) {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => AdminBottomNavigation()),
